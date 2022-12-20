@@ -22,18 +22,17 @@ module.exports = {
 
 
    getCurrentUserPosts: async (req, res) => {
-      const {userId} = req.params
-      console.log('.........................................................................', userId)
       try {
+         const {userId} = req.params
          const userPosts = await Post.findAll({
             where: {userId: userId},
             include: [{
                model: User,
                required: true,
-               attributes: [`userId`]
+               attributes: [`username`]
             }]
          })
-         res.status(200).send('a-ok!', userPosts)
+         res.status(200).send(userPosts)
       } catch (err) {
          console.log(err)
          res.status(501).send(err)
@@ -50,21 +49,37 @@ module.exports = {
             privateStatus: status,
             userId,
          })
-         res.status(200).send('.......................-------------------------------------Post succesful')
+         res.status(200).send('Post succesful')
       } catch (err) {
          console.log(
-            '...........................................................',
+            '.........................................................----------------..',
             err
          )
          res.status(400).send('Post could not be posted', err)
       }
    },
 
-   editPost: (req, res) => {
-      console.log('edit post')
+   editPost: async (req, res) => {
+      try {
+         const { status } = req.body
+         const { id } = req.params
+         await Post.update({privateStatus: status}, {
+            where: {id: +id}
+         })
+         res.status(200).send('post updated!')
+      } catch (err) {
+         res.status(400).send(`edit post sequelize try failed, ${err}`)
+      }
    },
 
-   deletePost: (req, res) => {
-      console.log('delete post')
+   deletePost: async (req, res) => {
+      try {
+         const { id } = req.params
+         await Post.destroy({where: {id: +id}})
+         res.status(200).send('post deleted!')
+      } catch (err) {
+         console.log(err)
+         res.status(400).send(`deletePost try failed: ${err}`)
+      }
    },
 }

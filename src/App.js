@@ -12,24 +12,27 @@ import Profile from './components/Profile'
 const App = () => {
    const authCtx = useContext(AuthContext)
    
-   useEffect(() => {
-      localStorage.removeItem('token')
-      localStorage.removeItem('userId')
-      localStorage.removeItem('expirationTime')
-   }, [])
-   
-  return (
-    <div className='app'>
-      <Header/>
-      <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/auth' element={!authCtx.token ? <Auth/> : <Navigate to='/' />}/>
-        <Route path='/form' element={authCtx.token ? <Form/> : <Navigate to='/auth' />}/>
-        <Route path='/profile' element={authCtx.token ? <Profile/> : <Navigate to='/auth'/>}/>
-        <Route path='*' element={<Navigate to='/'/>}/>
-      </Routes>
-    </div>
-  )
+   return (
+      <div className="app">
+         <Header />
+         <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+               path="/auth"
+               element={!authCtx.token ? <Auth /> : <Navigate to="/" />}
+            />
+            <Route
+               path="/form"
+               element={authCtx.token ? <Form /> : <Navigate to="/auth" />}
+            />
+            <Route
+               path="/profile"
+               element={authCtx.token ? <Profile /> : <Navigate to="/auth" />}
+            />
+            <Route path="*" element={<Navigate to="/" />} />
+         </Routes>
+      </div>
+   )
 }
 
 export default App

@@ -30,7 +30,7 @@ server.post('/login', login)
 
 // GET POSTS - no auth
 server.get('/posts', getAllPosts)
-server.get('/userposts/:userid', getCurrentUserPosts)
+server.get('/userposts/:userId', getCurrentUserPosts)
 
 // EDITING USER POSTS - auth required
 server.post('/posts', isAuthenticated, addPost)
